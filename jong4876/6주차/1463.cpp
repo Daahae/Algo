@@ -5,19 +5,18 @@
 #include <stdlib.h>
 #include <algorithm>
 using namespace std;
-int dp[1000000]; // ¸Ş¸ğÁ¦ÀÌ¼ÇÀ» À§ÇÑ ¹è¿­
+int dp[1000000]; // ë©”ëª¨ì œì´ì…˜ì„ ìœ„í•œ ë°°ì—´
 
 int func(int n) {
-	if (n == 1) return 0; // n=1ÀÏ¶© ¿¬»ê¾ÈÇÔ. º£ÀÌ½ºÄÉÀÌ½º
-	if (dp[n] != -1) return dp[n]; // ÀÌ¹Ì °è»êÇÑ °ªÀº ±×³É ¹İÈ¯
+	if (n == 1) return 0; // n=1ì¼ë• ì—°ì‚°ì•ˆí•¨. ë² ì´ìŠ¤ì¼€ì´ìŠ¤
+	if (dp[n] != -1) return dp[n]; // ì´ë¯¸ ê³„ì‚°í•œ ê°’ì€ ê·¸ëƒ¥ ë°˜í™˜
 
-	int cnt = func(n - 1) + 1; // n = 2ºÎÅÍ 3,4,5... ÀüÃ¼¼øÈ¯
-	cout << cnt <<":"<< n<<endl;
+	int cnt = func(n - 1) + 1; // n = 2ë¶€í„° 3,4,5... ì „ì²´ìˆœí™˜
 	if (n % 3 == 0)cnt = min(cnt, func(n / 3) + 1);
 
 	if (n % 2 == 0)cnt = min(cnt, func(n / 2) + 1);
 
-	dp[n] = cnt; // n = 2ºÎÅÍ ¸Ş¸ğÁ¦ÀÌ¼Ç °ªÀ» Â÷·Ê·Î ÀúÀå
+	dp[n] = cnt; // n = 2ë¶€í„° ë©”ëª¨ì œì´ì…˜ ê°’ì„ ì°¨ë¡€ë¡œ ì €ì¥
 	return cnt;
 	
 }
@@ -25,8 +24,9 @@ int func(int n) {
 int main() {
 	int N;
 	cin >> N;
-	fill(dp, dp + 1000000, -1); //-1·Î Ã¤¿ò
+	fill(dp, dp + N+1, -1); //-1ë¡œ ì±„ì›€
 	cout << func(N);
+	return 0;
 }
 
 
