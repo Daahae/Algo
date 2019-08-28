@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
 	int N;
-	long arr[91];
+	long long arr[91];
 	cin >> N;
 	arr[1] = arr[2] = 1;
 
