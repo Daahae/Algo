@@ -1,3 +1,4 @@
+// 9465
 #include <iostream>
 #include <vector>
 #include <stdio.h>
@@ -6,7 +7,7 @@
 using namespace std;
 int sticker[2][100001];
 int dp[2][100001];
-
+//
 int main() {
 	int T, n;
 	int beforeIdx;
@@ -21,7 +22,7 @@ int main() {
 				cin >> sticker[i][j];
 			}
 		}
-		// ¸îÇà ¸î¿­±îÁöÀÇ ÃÖ´ë°ªÀÇ ÇÕÀ» dp¿¡ ÀúÀåÇÏ´Â ¹æ½ÄÀ¸·Î
+		// ëª‡í–‰ ëª‡ì—´ê¹Œì§€ì˜ ìµœëŒ€ê°’ì˜ í•©ì„ dpì— ì €ì¥í•˜ëŠ” ë°©ì‹ìœ¼ë¡œ
 
 		dp[0][0] = sticker[0][0]; 
 		dp[1][0] = sticker[1][0];
@@ -29,14 +30,14 @@ int main() {
 		dp[1][1] = sticker[0][0] + sticker[1][1];
 		// basecase 
 
-		for (int i = 2;i < n;i++) { // ÀÌÈÄ°ª µ¿ÇÁ
+		for (int i = 2;i < n;i++) { // ì´í›„ê°’ ë™í”„
 			dp[0][i] = sticker[0][i] + max(dp[1][i - 2],dp[1][i - 1]);
 			dp[1][i] = sticker[1][i] + max(dp[0][i - 2], dp[0][i - 1]);
-			// ±ÔÄ¢¿¡µû¶ó ´ë°¢¼±ÀÌ³ª ÇÑÄ­µÚÀÇ ´ë°¢¼±dp°ª Áß ÃÖ´ë°ªÀ» ÅÃÇÔ
+			// ê·œì¹™ì—ë”°ë¼ ëŒ€ê°ì„ ì´ë‚˜ í•œì¹¸ë’¤ì˜ ëŒ€ê°ì„ dpê°’ ì¤‘ ìµœëŒ€ê°’ì„ íƒí•¨
 		}
 
 		cout << max(dp[0][n-1],dp[1][n - 1])<<endl;
-		// ÀÌÀü ÇàÀÇ dp°¡ ´äÀÌµÇ´Â°æ¿ì
+		// ì´ì „ í–‰ì˜ dpê°€ ë‹µì´ë˜ëŠ”ê²½ìš°
 	}
 
 
