@@ -8,8 +8,8 @@
 using namespace std;
 
 vector<int> solution(int N, vector<int> stages) {
-	vector<int> answer; //6Àº Å¬¸®¾îÇÑ°Í
-	map<int, double, greater<double>> failRatioMap; // °¢ ½ºÅ×ÀÌÁöÀÇ <¹øÈ£,½ÇÆĞÀ²>, ½ÇÆĞÀ² ¼øÀ¸·Î ÀúÀå
+	vector<int> answer; //6ì€ í´ë¦¬ì–´í•œê²ƒ
+	map<int, double, greater<double>> failRatioMap; // ê° ìŠ¤í…Œì´ì§€ì˜ <ë²ˆí˜¸,ì‹¤íŒ¨ìœ¨>, ì‹¤íŒ¨ìœ¨ ìˆœìœ¼ë¡œ ì €ì¥
 	double notClearPlayer;
 	double approachPlayer;
 	int stage;
@@ -25,13 +25,14 @@ vector<int> solution(int N, vector<int> stages) {
 			if (stages.at(j) == stage)
 				notClearPlayer+=1.0;
 		}
-		if (approachPlayer == 0)
+		if (approachPlayer == 0) // ë¶„ëª¨ 0ì¼ë•Œ ì²˜ë¦¬
 			failRatioMap[stage] = 0.0;
 
 		else
 			failRatioMap[stage] = (double)(notClearPlayer / approachPlayer);
 	}
 
+	// ìµœëŒ“ê°’ì„ í•˜ë‚˜ì”© ë½‘ì•„ì„œ ê²°ê³¼ì— 
 	for (int i = 1;i <= failRatioMap.size();i++) {
 		double max = -1.0;
 		int idx;
