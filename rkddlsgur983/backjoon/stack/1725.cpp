@@ -19,7 +19,7 @@ int main() {
     }
 
     for (int i = 0; i <= n; i++) {
-        while (!s.empty() && arr[s.top()] > arr[i]) {
+        while (!s.empty() && arr[s.top()] >= arr[i]) {
             int index = s.top();
             long width;
             s.pop();
