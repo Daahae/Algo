@@ -14,14 +14,14 @@ int flag = 0;
 
 void dfs(int cur) {
 
-	if (dp[cur][destVertex] == 1) {
+	if (dp[cur][destVertex] == 1) { // 이미 존재하는 경로라면 dp로 계산 후 종료
 		//cout << "dp" << endl;
 		flag = 1;
 		return;
 	}
 	
 
-	for (int i = 1;i <= N;i++) {
+	for (int i = 1;i <= N;i++) { // 간선 방문 여부에 따른 DFS 
 		if (adjArr[cur][i] == 1) {
 			//cout << cur << "->" << i << endl;
 			if (i == destVertex) {
@@ -37,7 +37,7 @@ void dfs(int cur) {
 }
 
 
-void resetArr() { // ������� �������
+void resetArr() { // 행렬초기화
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
 			if (adjArr[i][j] == -1)
@@ -80,7 +80,7 @@ int main() {
 			dfs(i);
 
 			cout << flag << " ";
-			resetArr();
+			resetArr(); // 행렬 정보를 초기화 해주어야함
 		}
 		cout << endl;
 	}
