@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <queue>
@@ -68,17 +68,18 @@ void left() { // 왼쪽으로 밀기
 void right() { // 오른쪽으로 밀기
 	for (int i = 0;i < N;i++) {
 		queue<int> Q;
-		 
+		
 		for (int j = N-1;j >= 0;j--) {
 			if (adj[i][j] != 0)
 				Q.push(adj[i][j]);
 		}
-		int size = Q.size();
-		for (int j = N-1;j >= 0;j++) {
+
+		for (int j = N-1;j >= 0;j--) {
 			adj[i][j] = 0;
 		}
 		int j = N-1;
-		while (!Q.empty()) {
+	//cout << "??" << endl;
+		while (!Q.empty() && j>=0) {
 			int front = Q.front();
 			Q.pop();
 			if (Q.empty()) {
@@ -174,7 +175,7 @@ void combine(int order){
 		break;
 
 	case 1:
-		//right();
+		right();
 		break;
 
 	case 2:
@@ -182,43 +183,42 @@ void combine(int order){
 		break;
 
 	case 3:
-		//down();
+		down();
 		break;
 	}
 
 
 }
 
+void printArr() {
+	for (int i = 0;i < N;i++) { // print
+		for (int j = 0;j < N;j++) {
+			cout << adj[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
 void dfs(int cnt) {
 
 	if (cnt == 5) {
-		for (int i = 0;i < N;i++) { // print
-			for (int j = 0;j < N;j++) {
-				cout << adj[i][j] << " ";
-			}
-			cout << endl;
-		}
-
-
 		for (int i = 0;i < N;i++) {
 			for (int j = 0;j < N;j++) {
 				maxCnt = max(adj[i][j], maxCnt);
 			}
 		}
+		cout << "maCnt : " << maxCnt << endl; // 모든 count5 의 경우에서 최댓값구함
 		return;
 	}
 
 	int tmpAdj[21][21];
-	copyArr(tmpAdj, adj);
-
-
+	copyArr(tmpAdj, adj); // 모든 방법 순회 후 이전 뿌리로 돌아오기 위함
 	for (int i = 0;i < 4;i++) {
+		// 상하좌우 모든 미는경우를 가지치기 *****
 		combine(i);
-		dfs(cnt + 1); // 모든경우를 가지치기
+		dfs(cnt + 1); 
 		copyArr(adj, tmpAdj);
 	}
-
-
 }
 
 int main() {
@@ -234,6 +234,8 @@ int main() {
 	}
 	
 	dfs(0);
+
+	//printArr();
 
 	cout << maxCnt << endl;
 
