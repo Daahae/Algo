@@ -1,16 +1,19 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <queue>
 
 using namespace std;
-int N,L,K;
+int N, L, K;
 int adj[101][101];
 map<int, char> directionMap; // 빈 키의 값은 false
 int cnt = 0;
 int tailCnt = 0;
-int tailX, tailY;
+
 bool apple = false;
+queue<pair<int, int>> Q;
+
 
 // 1 left, 2 right, 3 up, 4 down
 bool isInArr(int x, int y) {
@@ -23,35 +26,29 @@ bool isInArr(int x, int y) {
 	return true;
 }
 void tailMove() {
+	int tailX = Q.front().first;
+	int tailY = Q.front().second;
 
 	adj[tailX][tailY] = 0; //꼬리가 지나간 길은 일반 길로
-
-	if (isInArr(tailX - 1, tailY) && adj[tailX - 1][tailY] == -1) // down
-		tailX--;
-
-	else if (isInArr(tailX + 1, tailY) && adj[tailX + 1][tailY] == -1) // up
-		tailX++;
-
-	else if (isInArr(tailX , tailY -1) && adj[tailX][tailY -1] == -1) // left
-		tailY--;
-
-	else if (isInArr(tailX, tailY +1) && adj[tailX][tailY +1] == -1) // right
-		tailY++;
-
+	Q.pop();
+	
 }
 
 void printAdj() {
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
-			cout << adj[i][j] << " ";
+			cout << adj[i][j] << "  ";
 		}
 		cout << endl;
 	}
+	cout << cnt << endl;
+	cout << endl;
 }
+int firstFlag = 1; // 처음 한턴 쉼
 
 void DFS(int x, int y, int direction) {
 
-
+	
 	// 자기몸에박음
 	if (adj[x][y] == -1)
 		return;
@@ -61,25 +58,26 @@ void DFS(int x, int y, int direction) {
 	// 사과위치 체크
 	if (adj[x][y] == 1)
 		apple = true;
-	
-	// 뱀 머리 이동경로 체크
+
+	// 뱀 머리 이동경로 체크, 이동했던 경로에 삽입
 	adj[x][y] = -1;
-
-
-
+	Q.push(pair<int, int>(x, y));
+	//printAdj();
 
 	// 꼬리가 한칸 씩 쫓아옴 (-1이 있는 방향으로)
 	// 사과를 먹으면 꼬리 한번 안쫒아옴
-	if (apple) {
+	if (apple || firstFlag == 1) {
 		apple = false;
+		firstFlag = 0;
 	}
 	else
 		tailMove();
 
-	
+
 	// 벽에 박음
 	if (!isInArr(x, y))
 		return;
+
 
 
 	// 90도 턴함
@@ -123,7 +121,7 @@ void DFS(int x, int y, int direction) {
 	else if (direction == 2) {
 		y++;
 		cnt++;
-		DFS(x, y,2);
+		DFS(x, y, 2);
 	}
 
 	else if (direction == 3) {
@@ -158,13 +156,11 @@ int main() {
 		char direction;
 		cin >> sec >> direction;
 		directionMap[sec] = direction;
-
 	}
 
-	tailX = 1;
-	tailY = 1;
 	DFS(1, 1, 2); // 1행1열에서 오른쪽방향으로 시작
 
 	cout << cnt;
+	return 0;
 
 }
