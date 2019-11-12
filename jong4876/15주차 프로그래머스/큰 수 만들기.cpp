@@ -5,88 +5,54 @@
 
 using namespace std;
 
-bool compare(char a, char b) {
-	return a > b;
-}
-
-string solution(string number, int k) {
+string zipNum(string num, int reslen) {
 	string answer = "";
-	vector<char> stringNum;
-	vector<int> edgeIdx;
-	int startIdx; // 최댓값 찾기를 실시할 시작 인덱스
 	char max = -1;
+	int startIdx;
 
-	for (int i = 0;i < number.length();i++)
-		stringNum.push_back(number[i]);
-
-	for (int i = 0;i < number.length() - k+1;i++) { // 뒤에서 N-k이상떨어져 있고 시작할 최댓값
-		if (max < number[i]) {
-			max = number[i];
+	for (int i = 0;i <= num.length() - reslen;i++) {
+		if (max < num[i]) {
+			max = num[i];
 			startIdx = i;
 		}
 	}
-
-
-	k = k - startIdx;
-	
-
-	for (int i = startIdx;i < number.length() - k;i++) { // 퐁당퐁일때 빼기
-		if (i == startIdx)
-			continue;
-
-		if (k == 0)
-			break;
-
-		if ((number[i - 1] > number[i]) && (number[i] < number[i + 1])) {
-			edgeIdx.push_back(i);
-			k--;
-		}
+	for (int i = startIdx; i < num.length();i++) {
+		answer += num[i];
 	}
 
-	int cnt = 0;
-	if (edgeIdx.size() == 0) { //반례추가
-		for (int i = startIdx;i < number.length();i++)
-			answer += number[i];
-
-		while (k > 0) {
-			int min = -1;
-			int minIdx;
-			for (int i = 0;i < answer.length();i++) {
-				if (min > answer[i]) {
-					min = answer[i];
-					minIdx = i;
-				}
-			}
-			answer.erase(answer.begin() + minIdx);
-			k--;
-		}
+	return answer;
+}
 
 
-		return answer;
-	}
+string solution(string number, int k) {
+	string answer = "";
+	string tmpAnswer = "";
+	int startIdx; // 최댓값 찾기를 실시할 시작 인덱스
+	char max = -1;
+	int resLen = number.length() - k; // 결과값으로 나와야 하는 answer의 길이
 
-	for (int i = startIdx;i < number.length();i++) { // 앞에 제거한값 대입
-		if (edgeIdx[cnt] == i && (edgeIdx.size()-1 >= cnt)) {
-			int idx = edgeIdx[cnt];
-			cnt++;
-			continue;
-		}
+	tmpAnswer = zipNum(number, resLen); // 처음으로 시작할 숫자부터 그 뒤의 수들 집합string
+	// ex) 1231234 -> 31234 / k = 3
 
-		answer += number[i];
-	}
+	answer += tmpAnswer[0]; // 첫 자리 수는 확정이므로 answer에 삽입
+	resLen--; // 첫 자리는 정해졌으므로 실제 길이 줄임
+	startIdx = 1; // 검사를 시작할 인덱스 = 1
 
-	while (k > 0) {
-		int min = -1;
-		int minIdx;
-		for (int i = 0;i < answer.length();i++) {
-			if (min > answer[i]) {
-				min = answer[i];
-				minIdx = i;
+	while (resLen > 0) { // 자릿수에 맞는 수들 중 최댓값들만 뽑아오는 과정
+		char max = -1;
+		int maxIdx;
+		for (int i = startIdx;i <= tmpAnswer.length() - resLen;i++) {
+			if (max < tmpAnswer[i]) {
+				max = tmpAnswer[i];
+				maxIdx = i;
 			}
 		}
-		answer.erase(answer.begin() + minIdx);
-		k--;
+		answer += max;
+		startIdx = maxIdx+1;
+		resLen--;
 	}
+	// 31234 -> 3234
+
 
 	return answer;
 }
