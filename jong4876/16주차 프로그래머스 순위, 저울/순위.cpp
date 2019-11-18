@@ -5,24 +5,18 @@
 
 using namespace std;
 int playerArr[101][101];
-int finnishPlayer[101]; //체크 필요: 0 체크 필요X: 1
+int checkPlayer[101][101];
 
 void addExtraPlay(int n, int presentPlayer, int versusPlayer, int result) {
 	// 유추할 수 있는 경기결과를 추가함
 
 	int cnt = 0;
-
-	if (finnishPlayer[presentPlayer] == 1)
-		return;
-
-	for (int i = 1;i <= n;i++) {
-		if (playerArr[presentPlayer][i] != 0)
-			cnt++;
+	
+	if (checkPlayer[presentPlayer][versusPlayer] == 0) { // 동적 프로그래밍, 이미 한번 한 경로는 계산필요없음
+		checkPlayer[presentPlayer][versusPlayer] = 1;
 	}
-	if (n - 1 == cnt) { // 검사끝난건 체크할필요없음
-		finnishPlayer[presentPlayer] = 1;
+	else //  이미 겪었던 경로는 종료
 		return;
-	}
 
 	for (int i = 1;i <= n;i++) {
 		if (playerArr[versusPlayer][i] == result) {
@@ -56,8 +50,24 @@ int solution(int n, vector<vector<int>> results) {
 	}
 
 
-	for (int i = 1;i <= n;i++)
-		answer += finnishPlayer[i];
+	// 순위를 낼 수 있는 player 수 = 승패가 다 나온 player 수
+	// 구해서 answer에 더함, 순위가 몇위인지는 중요하지않음
+	for (int i = 1;i <= n;i++) {
+		int presentPlayer = i;
+		int minusCnt = 1;
+		for (int j = 1;j <= n;j++) {
+			if (i == j)
+				continue;
+
+			if (playerArr[presentPlayer][j] == 0) {
+				minusCnt = -1;
+				break;
+			}
+		}
+		if (minusCnt == 1)
+			answer++;
+	}
+
 
 
 	return answer;
