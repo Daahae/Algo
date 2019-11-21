@@ -1,5 +1,4 @@
 /* 큰 수 만들기
- * 41.7 / 100
  * 2019.11.11
  */
 #include <iostream>
@@ -10,9 +9,10 @@ using namespace std;
 
 string solution(string number, int k) {
 
-    int r = 0;
+    int r = 0; // 제거한 문자 길이
+    int len = number.length();
     string answer;
-    while (1 < k-r) {
+    while (answer.length() < len-k) {
         int max_value = 0;
         int index = 0;
         for (int i = 0; i <= k-r; i++) {
@@ -24,17 +24,6 @@ string solution(string number, int k) {
         r += index;
         answer += number[index];
         number = number.substr(index+1, number.length()-1-index);
-    }
-    
-    for (int i = 0; i < number.length()-1; i++) {
-        if (number[i]-'0' < number[i+1]-'0') {
-            answer += number.substr(i+1, number.length()-1-i);
-            break;
-        }
-        answer += number[i];
-    }
-    if (number.length() == 1) {
-        answer += number;
     }
     return answer;
 }
