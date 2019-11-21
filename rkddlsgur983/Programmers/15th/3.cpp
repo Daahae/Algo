@@ -1,6 +1,5 @@
 /* 디스크 컨트롤러
- * 65.0 / 100.0
- * 2019.11.20
+ * 2019.11.22
  */
 #include <iostream>
 #include <algorithm>
@@ -28,23 +27,25 @@ int solution(vector<vector<int>> jobs) {
     int size = jobs.size();
     sort(jobs.begin(), jobs.end(), compare);
 
-    priority_queue<vector<int>, vector<vector<int>>, cmp> pq;
-    pq.push(jobs[0]);
-    int answer = 0;
-    int time = jobs[0][0];
+    int time = jobs[0][0] + jobs[0][1];
+    int answer = jobs[0][1]; // 요청부터 종료까지 걸린 시간
     jobs.erase(jobs.begin());
 
-    while(!pq.empty()) {
-        time += pq.top()[1];
-        answer += time-pq.top()[0];
-        pq.pop();
+    priority_queue<vector<int>, vector<vector<int>>, cmp> pq;
 
-        while (!jobs.empty() && jobs[0][0] <= answer) {
+    while (!jobs.empty() || !pq.empty()) {
+        while (!jobs.empty() && jobs[0][0] <= time) {
             pq.push(jobs[0]);
             jobs.erase(jobs.begin());
         }
-        if (pq.empty() && !jobs.empty()) {
-            pq.push(jobs[0]);
+        
+        if (!pq.empty()) {
+            time += pq.top()[1];
+            answer += time-pq.top()[0];
+            pq.pop();
+        } else if (!jobs.empty() && jobs[0][0] > time) {
+            time = jobs[0][0] + jobs[0][1];
+            answer += jobs[0][1];
             jobs.erase(jobs.begin());
         }
     }
@@ -52,11 +53,7 @@ int solution(vector<vector<int>> jobs) {
 }
 
 int main() {
-    vector<vector<int>> jobs;
-    jobs.push_back({0, 3});
-    jobs.push_back({1, 9});
-    jobs.push_back({2, 6});
-    
+    vector<vector<int>> jobs({{0, 3}, {1, 9}, {2, 6}});
     cout << solution(jobs); // 9
     return 0;
 }
