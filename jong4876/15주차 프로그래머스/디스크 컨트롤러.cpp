@@ -9,8 +9,9 @@ bool compare(const pair<int, int> &a, const pair<int, int> &b) {
 	return a.second < b.second;
 
 }
-// 들어온 시간순으로 수행하되, 비는 시간에는 최소 시간을 집어넣음
 
+// ** 짧은 작업시간을 가진 프로세스를 먼저 처리한다.
+// presentTime을 1초씩 증가시키면서 해당 presentTime에 맞는 로직을 실행
 int solution(vector<vector<int>> jobs) {
 	int answer = 0;
 	int size;
