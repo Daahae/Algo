@@ -1,24 +1,33 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
 
 int solution(vector<int> scoville, int K) {
 	int answer = 0;
-	int firstIdx = 0;
+	
+	priority_queue<int, vector<int>, greater<int>> PQ;//오름차순 우선순위 큐
 
-	sort(scoville.begin(), scoville.end());
-	while (scoville[firstIdx] < K ) {
-		if (firstIdx >= scoville.size()) {
+	for (int i = 0;i < scoville.size();i++)
+		PQ.push(scoville[i]);
+
+	while (PQ.top() < K) {
+		if (PQ.size() <= 1) {
 			answer = -1;
 			break;
 		}
 
-		scoville[firstIdx+1] = scoville[firstIdx] + scoville[firstIdx+1]*2;
-		sort(scoville.begin() + firstIdx + 1, scoville.end());
-		firstIdx++;
+		int newVal = PQ.top();
+		PQ.pop();
+		newVal += PQ.top() * 2;
+		PQ.pop();
+
+		PQ.push(newVal);
+		answer++;
 	}
+
 
 
 	return answer;
