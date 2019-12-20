@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <queue>
 #include <algorithm>
@@ -13,14 +13,14 @@ vector<int> solution(vector<string> operations) {
 	for (int i = 0;i < operations.size();i++) {
 		char order;
 		string strVal = "";
-		int val;
+		long val;
 
 		order = operations[i][0];
 
 		for (int j = 2;j < operations[i].length();j++) {
 			strVal += operations[i][j];
 		}
-		val = atoi(strVal.c_str());
+		val = stol(strVal.c_str());
 
 		if (order == 'I') {
 			PQ.push_back(val);
@@ -29,15 +29,14 @@ vector<int> solution(vector<string> operations) {
 			if (PQ.size() == 0)
 				continue;
 
-			sort(PQ.begin(), PQ.end()); //오름차순
-			if (val  == 1)  // 최댓값 삭제
+			if (val == 1)  // 최댓값 삭제
 				PQ.pop_back();
 
 
-			else if(val <1) // 최솟값 삭제
-				 PQ.erase(PQ.begin());
+			else if(val == -1) // 최솟값 삭제
+				PQ.erase(PQ.begin());
 		}
-	
+		sort(PQ.begin(), PQ.end()); // 삽입이든 삭제든 한 명령 수행후 바로 정렬 ***
 	}
 
 	if (PQ.size() == 0) {
