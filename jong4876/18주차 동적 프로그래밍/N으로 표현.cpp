@@ -21,15 +21,16 @@ void calCount(int N, int number, int cnt) {
 	}
 
 	//dp[N] = cnt; // number를 만들 수 있는 경우의 수 cnt -> 필요없는거같음
-	
-	
-	calCount(N *10 + N, number, cnt + 1); // 55 555 5555 ...
 
-	calCount(N +startNum, number, cnt + 1);
+	calCount(N *10 + startNum, number, cnt + 1); // 55 555 5555 ...
+
+	calCount(N * startNum, number, cnt + 1);
+
+	calCount(N + startNum, number, cnt + 1);
+
+	calCount(N - startNum, number, cnt + 1);
 	
 	calCount(N / startNum, number, cnt + 1);
-
-	
 }
 
 
