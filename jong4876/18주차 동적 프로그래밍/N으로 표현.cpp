@@ -15,6 +15,7 @@ void calCount(int N, int number, int cnt) {
 	if (cnt > 8)
 		return;
 
+
 	if (N == number) {
 		minCnt = min(minCnt, cnt);
 		return;
@@ -26,16 +27,20 @@ void calCount(int N, int number, int cnt) {
 
 	calCount(N * startNum, number, cnt + 1);
 
+	//calCount(N * -startNum, number, cnt + 1);
+
 	calCount(N + startNum, number, cnt + 1);
 
 	calCount(N - startNum, number, cnt + 1);
 	
 	calCount(N / startNum, number, cnt + 1);
+
+	calCount(N / -startNum, number, cnt + 1);
 }
 
 
 int solution(int N, int number) {
-	int answer = 0;
+
 	
 	startNum = N;
 	calCount(N, number,1);
