@@ -1,17 +1,18 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <algorithm>
 
 using namespace std;
-vector<int> vec;
 
 int startNum;
-int minCnt = 999999;
+int minCnt = 9;
 int dp[33000]; // 인덱스 number, 값 cnt
 
 void calCount(int N, int number, int cnt) {
 
-	if (cnt > 9)
+	// 가능한 모든 경우의 수에 대해 재귀
+
+	if (cnt > 8)
 		return;
 
 	if (N == number) {
@@ -19,14 +20,12 @@ void calCount(int N, int number, int cnt) {
 		return;
 	}
 
-	//dp[N] = cnt; // number를 만들 수 있는 경우의 수 cnt
-
+	//dp[N] = cnt; // number를 만들 수 있는 경우의 수 cnt -> 필요없는거같음
 	
-	calCount(N*10 - N, number, cnt + 1);
+	
+	calCount(N *10 + N, number, cnt + 1); // 55 555 5555 ...
 
 	calCount(N +startNum, number, cnt + 1);
-	
-	calCount(N+ 1, number, cnt + 1); // startNum / startNum = 1
 	
 	calCount(N / startNum, number, cnt + 1);
 
@@ -40,7 +39,7 @@ int solution(int N, int number) {
 	startNum = N;
 	calCount(N, number,1);
 
-	if (minCnt == 999999)
+	if (minCnt >8)
 		minCnt = -1;
 
 	return minCnt;
