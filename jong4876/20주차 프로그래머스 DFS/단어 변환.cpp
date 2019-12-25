@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <queue>
 #include <iostream>
@@ -14,15 +14,15 @@ int countSameWords(string begin, string target) {
 
 	int cnt = 0;
 	for (int i = 0; i < begin.length();i++) {
-		if (target[i] == begin[i])
-			cnt++;
+			if (target[i] == begin[i])
+				cnt++;
 	}
 	return cnt;
 
 }
 
 
-void BFS(int startIdx, string begin, string target, vector<string> words) {
+void BFS(string begin, string target, vector<string> words) {
 	// 단어 하나만 조작해서 나올 수 있는 방향으로 BFS
 	int answerFlag = 0;
 
@@ -32,11 +32,11 @@ void BFS(int startIdx, string begin, string target, vector<string> words) {
 
 		// 큐 사이즈만큼 순환 **
 		for (int k = 0;k < Qsize;k++) {
-			startIdx = Q.front();
+			int startIdx = Q.front();
 			Q.pop();
 
 			//목적지에 다다랐으면 종료
-			if (target.compare(words[startIdx]) == 0) {
+			if (countSameWords(words[startIdx], target) == target.length()) {
 				answerFlag = 1;
 				return;
 			}
@@ -46,7 +46,7 @@ void BFS(int startIdx, string begin, string target, vector<string> words) {
 				if (visited[i] == 0) { 
 					// 방문하지 않은 word에 대해서
 					cnt = countSameWords(words[startIdx], words[i]);
-					if (cnt == 2) {
+					if (cnt >= target.length()-1) {
 						visited[i] = 1;
 						Q.push(i);
 						// 목적string이 있는지 파악
@@ -65,20 +65,22 @@ void BFS(int startIdx, string begin, string target, vector<string> words) {
 int solution(string begin, string target, vector<string> words) {
 	int startIdx;
 
-	// 한번의 단어 변화로 얻을 수 있는 string을 startIdx로
+	// 한번의 단어 변화로 얻을 수 있는 string의 인덱스를 큐에 삽입
 	for (int i = 0;i < words.size();i++) {
 		int cnt = countSameWords(begin, words[i]);
-		if (cnt == 2) {
+		
+		// size가 3이 아닐수 있음을 간과함 ****** 검토잘할것
+		if (cnt >= target.length()-1) {
+			startIdx = i;
 			Q.push(startIdx);
 			visited[startIdx] = 1;
 
-			cnt = countSameWords(target, words[i]);
-			if (cnt == 3)
+			if (countSameWords(words[startIdx], target) == target.length())
 				return 1;
 		}
 	}
 
-	BFS(startIdx, begin, target, words);
+	BFS(begin, target, words);
 
 
 	return answer;
