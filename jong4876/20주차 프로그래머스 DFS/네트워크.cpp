@@ -17,26 +17,16 @@ void dfs(int n, vector<vector<int>> computer, int startIdx) {
 			
 			dfs(n, computer, i);
 		}
-
 	}
-
-
-
 }
-
 
 int solution(int n, vector<vector<int>> computers) {
 	int answer = 0;
-
 	for (int i = 0;i < n;i++) {
 		if (visited[i] == 0) {
 			cnt++;
 			dfs(n, computers, i);
 		}
 	}
-	
-
-
-
 	return cnt;
 }
