@@ -24,7 +24,7 @@ long long solution(int n, vector<int> times) {
 		for (long long i = 0;i < times.size();i++) {
 			cnt += mid / times[i];
 
-			// 나머지가 0인 값들이 많을수록 최솟값에 가까워짐?
+			// 나머지가 0인 값이 있어야 
 			if (mid%times[i] == 0)
 				flag = 1;
 
