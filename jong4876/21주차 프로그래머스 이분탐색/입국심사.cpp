@@ -8,23 +8,45 @@ long long solution(int n, vector<int> times) {
 	long long answer = 0;
 
 	sort(times.begin(), times.end());
-	answer = times[0];
 
+	long long left = times[0]; // 7
+	long long right = times[times.size()-1]*n; // 60?
+	long long mid;
+	long long cnt = 0;
 
-	while (1) {
-		long long cnt = 0;
+	while (left < right) {
+		cnt = 0;
+		mid = (left + right) / 2;
+		int flag = 0;
 
 		// answer시간에 심사원들이 감당할 수 있는 최대 명수 == n 일 때 종료
-		for (int i = 0;i < times.size();i++) 
-			cnt += answer / times[i];
-		
-		if (cnt == n)
-			break;
+		for (int i = 0;i < times.size();i++) {
+			cnt += mid / times[i];
 
-		answer++;
+			// 나머지가 0인 값들이 많을수록 최솟값에 가까워짐
+			if (mid%times[i] == 0) 
+				flag = 1;
+
+		}
+
+		if (cnt == n &&flag ==1) 
+			return mid;
+		
+
+		if (cnt > n)
+			right = mid;
+
+		else if (cnt < n)
+			left = mid;
+
+		if (flag == 0) {
+			left--;
+			right--;
+		}
+
 	}
 
-
+	answer = mid;
 
 	return answer;
 }
