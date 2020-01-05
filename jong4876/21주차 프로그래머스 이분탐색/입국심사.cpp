@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <algorithm>
 
@@ -8,30 +8,23 @@ long long solution(int n, vector<int> times) {
 	long long answer = 0;
 
 	sort(times.begin(), times.end());
+	answer = times[0];
 
-	// 처음에 심사받는 사람 제외하고 시작
-	n -= times.size();
-
-	long long presentTime = times[times.size() - 1];
 
 	while (1) {
+		long long cnt = 0;
 
-		for (int i = 0;i < times.size();i++) {
-			if (presentTime% times[i] == 0) {
-				n--;
-				if (n == 0) {
-					presentTime += times[i];
-				}
-					
-
-				break;
-			}
-		}
-	
+		// answer시간에 심사원들이 감당할 수 있는 최대 명수 == n 일 때 종료
+		for (int i = 0;i < times.size();i++) 
+			cnt += answer / times[i];
 		
-		presentTime++;
+		if (cnt == n)
+			break;
+
+		answer++;
 	}
-	answer = presentTime;
+
+
 
 	return answer;
 }
