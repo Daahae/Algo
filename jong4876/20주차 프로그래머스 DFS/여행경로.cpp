@@ -22,27 +22,15 @@ void DFS(int startIdx, vector<vector<string>> tickets) {
 	visited[startIdx] = 1;
 
 	for (int i = 0;i<tickets.size();i++) {
-		// 도착지 ==> 출발지
+		// 도착지 ==> 출발지, 방문한 적 없다면
 		if (tickets[startIdx][1].compare(tickets[i][0]) == 0
 			&& visited[i] == 0) {
 
 			destIdx = i;
 			DFS(destIdx, tickets);
+			break;
 		}
 	}
-
-	// 더 나아갈 경로가 없다면
-	if (destIdx == -1) {
-
-		// 다 돌지 못했다면
-		if (answer.size() < tickets.size() + 1) {
-
-			// 이전 값을 롤백,	 방문체크 취소
-			answer.pop_back();
-			visited[startIdx] = 0;
-		}
-	}
-
 }
 
 
@@ -51,9 +39,7 @@ vector<string> solution(vector<vector<string>> tickets) {
 
 	int startIdx;
 	int size = tickets.size();
-
-
-	sort(tickets.begin(), tickets.end());
+	vector<vector<string>> route;
 
 	// 모든 인덱스에 대해서 DFS가 도는 지 확인
 	for (int i = 0;i < tickets.size();i++) {
@@ -65,10 +51,16 @@ vector<string> solution(vector<vector<string>> tickets) {
 			startIdx = i;
 
 			DFS(startIdx, tickets);
-			if (answer.size() == tickets.size() + 1)
-				return answer;
+			if (answer.size() == tickets.size() + 1) {
+				route.push_back(answer);
+			}
 		}
 	}
+	//cout << route.size();
+
+	sort(route.begin(), route.end());
+
+
 	//answer.clear();
-	return answer;
+	return route[0];
 }
