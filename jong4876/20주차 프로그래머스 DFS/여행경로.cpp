@@ -56,11 +56,9 @@ vector<string> solution(vector<vector<string>> tickets) {
 			}
 		}
 	}
-	//cout << route.size();
 
+	// 후보군들을 사전순 정렬
 	sort(route.begin(), route.end());
 
-
-	//answer.clear();
 	return route[0];
 }
