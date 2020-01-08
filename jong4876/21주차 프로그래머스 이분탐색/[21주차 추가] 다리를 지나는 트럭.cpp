@@ -1,4 +1,4 @@
-﻿#include <string>
+#include <string>
 #include <vector>
 #include <algorithm>
 #include <queue>
@@ -7,32 +7,41 @@ using namespace std;
 
 int solution(int bridge_length, int weight, vector<int> truck_weights) {
 	int time = 0;
-	queue<int> Q;
-	int sum = 0;
+	queue<int> Q;// 다리의 현황
+	int sumWeight = 0;
+	int i = 0;
 
-	Q.push(truck_weights[0]);
 
-	for (int i = 0;i < truck_weights.size();i++) {
-		
-		if (sum + truck_weights[i] <= weight) {
-			sum += truck_weights[i];
+	// 큐를 다리처럼 사용해서 시간의 흐름에 따른 큐의 변화를 기록 **
+	// 모두 통과하기 까지 걸리는 시간 반환
+
+	while (1) {
+
+		if (i >= truck_weights.size())
+			break;
+
+		// 다리가 꽉 차거나 헤더가 끝자락에 도착
+		if (Q.size() >= bridge_length) {
+			sumWeight -= Q.front();
+			Q.pop();
+		}
+
+
+		if (sumWeight+ truck_weights[i] <= weight) {
 			Q.push(truck_weights[i]);
-			time++;
+			sumWeight += truck_weights[i];
+			i++;
 		}
 		else {
-			while (sum + truck_weights[i] > weight) {
-				sum -= Q.front();
-				Q.pop();
-			}
-			Q.push(truck_weights[i]);
-			sum += truck_weights[i];
-			time += bridge_length;
+			// 트럭들을 앞으로 진행시키기 = 0삽입
+			Q.push(0);
 		}
+		time++;
 	}
+	
 
-	// 큐가 넘치지 않았다면, 그대로 다리를 통과
+	// 남아있는 트럭집단 보내버리기
 	time += bridge_length;
-
 
 	return time;
 }
