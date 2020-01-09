@@ -16,9 +16,7 @@ vector<int> solution(vector<int> progresses, vector<int> speeds) {
 		
 		if (restWork% speeds[i] != 0)
 			day++;
-
-		cout << day << endl;
-		Q.push(day);
+        Q.push(day);
 	}
 	// Q <- 1,7,3,9,4,5
     // 첫번 째 값 넣고시작
@@ -26,17 +24,18 @@ vector<int> solution(vector<int> progresses, vector<int> speeds) {
     Q.pop();
 
 	while (!Q.empty()) {
-     
+        
+        // waitWork[0] = 작업 단위를 묶는 limit 개발 날짜
 		if (Q.front() <= waitWork[0]) {
 			waitWork.push_back(Q.front());
 		}
 		else {
+            
+            // 대기순위에 있던 작업들 갯수 더함
 			answer.push_back(waitWork.size());
 			waitWork.clear();
 			waitWork.push_back(Q.front());
-           
-		}
-
+        }
 		Q.pop();
 	}
 	answer.push_back(waitWork.size());
