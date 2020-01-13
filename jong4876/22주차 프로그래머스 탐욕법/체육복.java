@@ -11,7 +11,7 @@ class Solution {
         		if(lost[i] == reserve[j]) {
         			lost[i] = -1;
         			reserve[j] = -1;
-        		      			
+        		    answer++;  			
         			break;
         		}
         			
@@ -25,13 +25,13 @@ class Solution {
         		
         	for(int j=0;j<reserve.length;j++) {
         		
-        		//¿ÞÂÊ
+        		//ì™¼ìª½
         		if(lost[i] -1 == reserve[j] && reserve[j] !=-1) {
         			reserve[j] = -1;
         			answer++;
         			break;
         		}
-        		//¿À¸¥ÂÊ
+        		//ì˜¤ë¥¸ìª½
         		else if(lost[i] +1 == reserve[j] && reserve[j] !=-1) {
         			reserve[j] = -1;
         			answer++;
