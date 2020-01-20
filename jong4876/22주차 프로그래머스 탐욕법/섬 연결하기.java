@@ -2,24 +2,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 class Solution {
-	public class Edge implements Comparable<Edge>{
+	public class Edge implements Comparable<Edge> {
 		int start;
 		int end;
 		int costs;
-		
-		// °¡ÁßÄ¡ ±âÁØÀ¸·Î Á¤·Ä
+		int visted;
+
+		// ê°€ì¤‘ì¹˜ ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬
 		@Override
 		public int compareTo(Edge V) {
 			// TODO Auto-generated method stub
 			return costs - V.costs;
 		}
-		
+
 	}
+
 	public int solution(int n, int[][] costs) {
 		int answer = 0;
-		int [] visited = new int[101];
-		
-		// list¿¡ Ãß°¡ ÈÄ °´Ã¼ Á¤·Ä
+		int[] visited = new int[101];
+
+		// listì— ì¶”ê°€ í›„ ê°ì²´ ì •ë ¬
 		ArrayList<Edge> list = new ArrayList<>();
 
 		for (int i = 0; i < costs.length; i++) {
@@ -31,34 +33,53 @@ class Solution {
 			Edge.end = end;
 			Edge.costs = costs[i][2];
 			list.add(Edge);
+
+			/*
+			// ê±°ê¾¸ë¡œ
+			Edge.start = end;
+			Edge.end = start;
+			Edge.costs = costs[i][2];
+			list.add(Edge);
+			*/
 		}
-		
-		// Edge Å¬·¡½ºÀÇ comparable ±âÁØÀ¸·Î ¿À¸§Â÷¼ø °´Ã¼ Á¤·Ä
+
+		// Edge í´ë˜ìŠ¤ì˜ comparable(cost) ê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ê°ì²´ ì •ë ¬
 		Collections.sort(list);
+
 		int costsSum = 0;
-		for(int i=0;i<list.size();i++) {
+		int edgeCnt = 0;
+
+		for (int i = 0; i < list.size(); i++) {
 			Edge edge = list.get(i);
-		
 			
-			// ÇÒ ÇÊ¿ä ¾ø´Â °æ¿ì
-			if(visited[edge.start] == 1 && visited[edge.end] == 1) {
-				System.out.println("??");
-				continue;
-			}
-			costsSum += edge.costs;
-			
-			visited[edge.start] = 1;
-			visited[edge.end] = 1;
+			System.out.println(edge.costs);
+
 			
 			int sum = 0;
-			for(int j=0;j<n;j++)
-				sum+= visited[j];
+			for (int j = 0; j < n; j++)
+				sum += visited[j];
 			
-			if(sum == n)
+			// í•  í•„ìš” ì—†ëŠ” ê²½ìš°, ëª¨ë“  ì •ì  ë°©ë¬¸ì´ ëë‚¬ì„ì‹œì—ëŠ” ê·¸ëƒ¥ í†µê³¼
+			if (visited[edge.start] == 1 && visited[edge.end] == 1 && sum !=n)
+				continue;
+
+			visited[edge.start] = 1;
+			visited[edge.end] = 1;
+
+			costsSum += edge.costs;
+			edgeCnt++;
+			
+			// ëª¨ë“  ì •ì ì„ ë°©ë¬¸í–ˆëŠ”ì§€ ì—¬ë¶€ ì²´í¬
+			sum = 0;
+			for (int j = 0; j < n; j++)
+				sum += visited[j];
+			
+
+			if (sum == n && edgeCnt>=n-1) 
 				break;
-			
+
 		}
-		
+
 		return costsSum;
 	}
 }
