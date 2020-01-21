@@ -5,12 +5,12 @@ class Solution {
     public int solution(int[][] routes) {
         int answer = 0;
         
+        
+        // ì²« ë²ˆì§¸ í–‰ë ¬ ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬
         Arrays.sort(routes, new Comparator<int[]>(){
-
 			@Override
 			public int compare(int[] o1, int[] o2) {
-				
-				return o1[1] - o2[1];
+				return o1[0] - o2[0];
 			}     	
         });
         int left =routes[0][0];
@@ -18,8 +18,8 @@ class Solution {
         
         
         for(int i=1;i<routes.length;i++) {
-        	
-        	// ¹üÀ§ Á¼Çô³ª°¡±â
+ 
+        	// ë²”ìœ„ ì¢í˜€ë‚˜ê°€ê¸°
 			if (left <= routes[i][0] &&right >= routes[i][1]) {
 				left = routes[i][0];
 				right = routes[i][1];  	
@@ -31,21 +31,13 @@ class Solution {
 			else if(right >= routes[i][0] && routes[i][0] >=left)
 				left = routes[i][0];
         
-			// ¹üÀ§¸¦ ¸ø Á¼Èù´Ù¸é °»½Å ÈÄ Ä«¿îÆ®
+			// ë²”ìœ„ë¥¼ ëª» ì¢íŒë‹¤ë©´ ê°±ì‹  í›„ ì¹´ìš´íŠ¸
         	else {
         		answer++;
         		left = routes[i][0];
         		right = routes[i][1];
         	}
-        	System.out.println(left + " : "+right);
-        	
         }
-        
-        
-        
-        
-        
-        
         return answer+1;
     }
 }
