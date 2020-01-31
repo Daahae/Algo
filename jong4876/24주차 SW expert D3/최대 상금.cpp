@@ -1,4 +1,4 @@
-﻿#include<vector>
+#include<vector>
 #include<iostream>
 #include<algorithm>
 
@@ -21,7 +21,7 @@ int main(int argc, char** argv)
 	for (test_case = 1; test_case <= T; ++test_case)
 	{
 		int val;
-		int dupleFlag = 0;
+		int dupleFlag = 0; // 중복된 수가 있는지 -> 이러면 중복카운트 상관없음
 		double swapCnt;
 		vector<int> valVec;
 		vector<int> tmpValVec;
@@ -47,7 +47,8 @@ int main(int argc, char** argv)
 					changeCnt++;
 			}
 
-			if (swapCnt*2 == changeCnt) {
+			if (swapCnt*2 >= changeCnt) {
+				cout << "cnt : " << changeCnt<< endl;
 				cout << "#" << test_case << " ";
 
 				for (int i = 0;i < valVec.size();i++)
