@@ -14,19 +14,12 @@ int main(){
 	for (int T = 1;T <= 10;T++) {
 		vector<int> box;
 		int dumpCnt;
-		int maxHeight = -1;
-		int maxHeightIdx;
 		stack<int> s;
 		cin >> dumpCnt;
 
 		for (int i = 0;i < 100;i++) {
 			int height;
 			cin >> height;
-			if (height > maxHeight) { // 최고 높이와 그 인덱스 저장
-				maxHeight = height;
-				maxHeightIdx = i;
-			}
-
 			box.push_back(height);
 		}
 		for (int i = 0;i < dumpCnt;i++) { 
@@ -36,6 +29,10 @@ int main(){
 		}
 		sort(box.begin(), box.end());
 		cout << "#" << T << " " << box[99] - box[0] << endl;
+
 	}
+	
+
+
 	return 0;
 }
