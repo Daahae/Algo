@@ -1,4 +1,4 @@
-﻿#include<iostream>
+#include<iostream>
 #include<algorithm>
 #include<vector>
 #include<queue>
@@ -12,7 +12,7 @@ int level = 0;
 
 // i, j가 친구인지
 bool isFriend(int i, int j) {
-	
+
 	if (line[i].second < line[j].first)
 		return false;
 
@@ -31,7 +31,7 @@ int main() {
 	for (int i = 1;i <= N;i++) {
 		long long left, right;
 		cin >> left >> right;
-		line.push_back(pair<long long, long long>(left, right));	
+		line.push_back(pair<long long, long long>(left, right));
 	}
 
 	adj.resize(301);
@@ -42,14 +42,15 @@ int main() {
 
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
-			adj[i][j] = 9999;
+			if(i!=j)
+				adj[i][j] = 500;
 		}
 	}
 
 	// 1차친구 정보저장
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
-			if (isFriend(i, j) && i!=j) {
+			if (isFriend(i, j) && i != j) {
 				adj[i][j] = 1;
 				adj[j][i] = 1;
 			}
@@ -60,8 +61,8 @@ int main() {
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
 			for (int k = 1;k <= N;k++) {
-				if (adj[i][k] > adj[i][j] + adj[j][k])
-					adj[i][k] = adj[i][j] + adj[j][k];
+				if (adj[k][j] > adj[k][i] + adj[i][j])
+					adj[k][j] = adj[k][i] + adj[i][j];
 			}
 		}
 	}
@@ -74,12 +75,12 @@ int main() {
 		int start, end;
 		cin >> start >> end;
 
-		if(adj[start][end] == 9999)
+		if (adj[start][end] == 500)
 			cout << -1 << endl;
 		else
 			cout << adj[start][end] << endl;
 	}
 
-	
+
 	return 0;
 }
