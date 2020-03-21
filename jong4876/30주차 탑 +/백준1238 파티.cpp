@@ -30,7 +30,7 @@ int main() {
 		adj[st][end] = weight;
 	}
 
-
+	// Floyd - Washall
 	for (int i = 1;i <= N;i++) {
 		for (int j = 1;j <= N;j++) {
 
@@ -45,6 +45,7 @@ int main() {
 		}
 	}
 
+	// 최장시간인 친구 
 	int maxWeight = 0;
 	for (int i = 1;i <= N;i++) 
 		maxWeight = max(maxWeight, adj[i][X] + adj[X][i]);
