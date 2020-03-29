@@ -45,7 +45,6 @@ void BFS(int start) {
 		
 				if (sumWeight + bag[j].first <= K && visited[j] ==0) {
 					maxValue = max(maxValue, sumValue + bag[j].second);
-					cout << sumWeight + bag[j].first<< " : "<< maxValue<< endl;
 					Q.push(j);
 					
 				}
